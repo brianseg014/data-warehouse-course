@@ -1,0 +1,50 @@
+Pasos para servidor con memsql:
+	- Descargar vmware palyer https://www.vmware.com/latam/products/workstation-player.html
+	- Descargar CentOS minimal: http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso
+	- Instalar vmware para uso no comercial
+	- Crear una máquina virtual y seleccionar el iso de centos para iniciar la máquina
+		- 4 cores y 4GB de ram
+	- Iniciar máquina virtual
+	- En la instalación establecer contraseña de root y usuario adicional (seleccionar administrador)
+	- Al iniciar CentOS en la virtual ingresar con el usuario adicional
+	- sudo dhclient para establecer una ip en la virtual
+	- ip a para conocer la ip
+	- Descargar putty: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+		- Se utiliza para conectarse en remoto por ssh a la virtual mediante la ip del paso anterior
+	- sudo yum install yum-utils
+	- Seguir los pasos de instalación de memsql: https://docs.memsql.com/guides/latest/install-memsql/on-premises/single-host/native/step-1/
+	- sudo yum systemctl disable firewalld # Desactivar firewall para no iniciar
+	- sudo yum systemctl stop firewalld # Detener el servicio de firewall
+	- Comprobar la conexión a memsql utilizando Workbench
+		- Utilizar la ip de la virtual y puerto 3306 con usuario root
+
+Pasos para pentaho data integration:
+	- Descargar java 8: https://www.oracle.com/technetwork/java/javase/downloads/index-jsp-138363.html
+	- Instalar java 8
+	- Descargar pentaho data integration: http://events.pentaho.com/CE-Download_Data-Integration-ALL-OS.html
+	- Descomprimir
+	- Descargar el conector jdbc mysql y colocarlo en lib dentro de pentaho
+	- Ejecutar Spoon.bat
+	- Crear un nuevo file repository. connect -> repository manager
+	
+	
+Pasos para landing:
+	- mkdir /opts/pandora
+	- chmod 777 /opts/pandora
+	- mkdir /opts/pandora/tximdb
+	- mkdir /opts/pandora/tximdb/landing
+	- mkdir /opts/pandora/tximdb/archive
+	- sudo yum install wget
+	- cd /opts/pandora/tximdb/landing
+	- wget https://datasets.imdbws.com/title.basics.tsv.gz
+	- mv title.basics.tsv.gz 20190225_title_basics.tsv.gz
+	
+Pasos para stage:
+	- gzip -d 20190225_title_basics.tsv.gz
+	- head -10 20190225_title_basics.tsv > ~/20190225_title_basics.sample.tsv
+	- Descargar filezilla: https://filezilla-project.org/download.php
+	- Para conectar con servidor:
+		- Host: sftp://<ip virtual>
+		- Usuario y contraseña
+	- Descargar /home/<user>/20190225_title_basics.sample.tsv
+	- Crear Transformations
