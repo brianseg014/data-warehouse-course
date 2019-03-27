@@ -29,11 +29,11 @@ Pasos para pentaho data integration:
 	
 	
 Pasos para landing:
-	- mkdir /opts/pandora
-	- chmod 777 /opts/pandora
-	- mkdir /opts/pandora/tximdb
-	- mkdir /opts/pandora/tximdb/landing
-	- mkdir /opts/pandora/tximdb/archive
+	- mkdir /opt/pandora
+	- chmod 777 /opt/pandora
+	- mkdir /opt/pandora/tximdb
+	- mkdir /opt/pandora/tximdb/landing
+	- mkdir /opt/pandora/tximdb/archive
 	- sudo yum install wget
 	- cd /opts/pandora/tximdb/landing
 	- wget https://datasets.imdbws.com/title.basics.tsv.gz
