@@ -1,0 +1,36 @@
+INSERT INTO 300_imdb_titles_link_serieepisode
+SELECT DISTINCT
+	MD5(CONCAT(
+		COALESCE(TRIM(UPPER(A.originalTitle)),''), '|',
+		COALESCE(TRIM(UPPER(A.startYear)),''), '|',
+		COALESCE(TRIM(UPPER(seasonNumber )),''), '|',
+		COALESCE(TRIM(UPPER(episodeNumber )),'')
+	)) 300_IMDB_TITLES_LINK_SERIEEPISODE_HKEY,
+	B.LOAD_DATETIME,
+	B.RECORD_SOURCE,
+	MD5(CONCAT(
+		COALESCE(TRIM(UPPER(A.originalTitle)),''), '|',
+		COALESCE(TRIM(UPPER(A.startYear)),'')
+	)) 300_IMDB_TITLES_HUB_SERIE_HKEY,
+	
+	MD5(CONCAT(
+		COALESCE(TRIM(UPPER(seasonNumber )),''), '|',
+		COALESCE(TRIM(UPPER(episodeNumber )),'')
+	)) 300_IMDB_TITLES_HUB_EPISODE_HKEY,
+FROM pandora.200_tximdb_title_basics A
+INNER JOIN pandora.200_tximdb_title_episodes B ON B.parentTconst = A.tconst
+AND NOT EXISTS(
+	SELECT 1
+	FROM 300_imdb_titles_link_serieepisode
+	WHERE 300_imdb_titles_link_serieepisode.300_IMDB_TITLES_HUB_SERIE_HKEY =
+			MD5(CONCAT(
+				COALESCE(TRIM(UPPER(A.originalTitle)),''), '|',
+				COALESCE(TRIM(UPPER(A.startYear)),'')
+			))
+	AND 300_imdb_titles_link_serieepisode.300_IMDB_TITLES_HUB_EPISODE_HKEY =
+			MD5(CONCAT(
+				COALESCE(TRIM(UPPER(seasonNumber )),''), '|',
+				COALESCE(TRIM(UPPER(episodeNumber )),'')
+			))
+)
+AND LOAD_DATETIME = ?
