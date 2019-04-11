@@ -22,7 +22,7 @@ LEFT JOIN 300_imdb_titles_sat_movie B ON (
 )
 WHERE
 A.LOAD_DATETIME = '${LOAD_DATETIME}'
-AND A.HASH_DIFF <> B.HASH_DIFF
+AND A.HASH_DIFF <> COALESCE(B.HASH_DIFF, '')
 ;
 
 UPDATE 300_imdb_titles_sat_movie
